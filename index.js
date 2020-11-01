@@ -18,6 +18,11 @@ mongoose
   })
   .catch(err => console.error(`Connection error ${err}`));
 
+app.use(express.static('public'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.use(express.json());
 app.use(cors());
 app.use('/api', require('./api/routes/note'));
@@ -32,10 +37,6 @@ app.use((err, req, res, next) => {
   res.json({ error: err.message });
 });
 
-app.use(express.static('public'));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
